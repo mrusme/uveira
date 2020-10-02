@@ -2,59 +2,81 @@ package main
 
 import (
   "fmt"
+  // "strings"
   "os"
-  "strings"
+  "context"
+  "time"
+  "log"
+  "flag"
 
-  "github.com/eliben/gosax"
+  "go.mongodb.org/mongo-driver/mongo"
+  "go.mongodb.org/mongo-driver/mongo/options"
+  "go.mongodb.org/mongo-driver/bson"
+  "go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
 func main() {
-  var currentPage Page
-  counter := 0
-  inPage := false
-  inPageTitle :=false
+  var queryTitleExact string
+  var queryTitleRegEx string
 
-  scb := gosax.SaxCallbacks{
-    StartElement: func(name string, attrs []string) {
-      switch element := name; element {
-        case "page":
-          inPage = true
-          currentPage = Page{}
-          counter++
-        case "title":
-          inPageTitle = true
-        default:
-          // TODO
-      }
-    },
-
-    EndElement: func(name string) {
-      switch element := name; element {
-        case "page":
-          inPage = false
-        case "title":
-          inPageTitle = false
-        default:
-          // TODO
-      }
-    },
-
-    Characters: func(contents string) {
-      if inPageTitle {
-        currentPage.title = contents
-        if len(os.Args) == 3 && strings.Contains(strings.ToLower(contents), strings.ToLower(os.Args[2])) {
-          fmt.Printf("%s\n", currentPage.title)
-        }
-      }
-    },
-  }
-
-  err := gosax.ParseFile(os.Args[1], scb)
+  rtcfg, err := NewRTCFG()
   if err != nil {
     panic(err)
   }
 
-  fmt.Println("--------------------------------------------------------------------------------")
-  fmt.Println("Number of pages:", counter)
+  flag.StringVar(&queryTitleExact, "te", "", "Query by title (exact)")
+  flag.StringVar(&queryTitleRegEx, "tr", "", "Query by title (RegEx)")
+  flag.Parse()
+
+  client, err := mongo.NewClient(options.Client().ApplyURI(rtcfg.MongoURI))
+
+  ctx, cancel := context.WithTimeout(context.Background(), 30 * time.Second)
+  defer cancel()
+  err = client.Connect(ctx)
+
+  defer func() {
+    if err = client.Disconnect(ctx); err != nil {
+        panic(err)
+    }
+  }()
+
+  collection := client.Database(rtcfg.Database).Collection(rtcfg.Collection)
+
+  var filter bson.M
+
+  if queryTitleExact == "" && queryTitleRegEx != "" {
+    filter = bson.M{
+      "_id": primitive.Regex{
+        Pattern: queryTitleRegEx,
+        Options: "i",
+      },
+    }
+  } else if queryTitleExact != "" && queryTitleRegEx == "" {
+    filter = bson.M{"_id": queryTitleExact}
+  } else {
+    log.Fatal("Specify either -te or -tr!")
+    os.Exit(-1)
+  }
+
+  cur, err := collection.Find(ctx, filter)
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  defer cur.Close(ctx)
+  for cur.Next(ctx) {
+    var result bson.M
+    err := cur.Decode(&result)
+    if err != nil {
+      log.Fatal(err)
+    }
+    fmt.Printf("Found: %+v\n", result)
+  }
+
+  if err := cur.Err(); err != nil {
+    log.Fatal(err)
+  }
+
+  os.Exit(0)
 }
