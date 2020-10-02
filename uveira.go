@@ -65,20 +65,32 @@ func main() {
   }
 
   defer cur.Close(ctx)
+  var pages []Page
+
   for cur.Next(ctx) {
-    // var result bson.M
     var page Page
-    // err := cur.Decode(&result)
+
     err := cur.Decode(&page)
     if err != nil {
       log.Fatal(err)
     }
-    // fmt.Printf("Found: %+v\n", result)
-    fmt.Printf("%+v", page.RenderPage())
+
+    pages = append(pages, page)
   }
 
   if err := cur.Err(); err != nil {
     log.Fatal(err)
+  }
+
+  foundPages := len(pages)
+
+  if foundPages > 1 {
+    // TODO
+    log.Println("Multiple results found.")
+  } else if foundPages == 1 {
+    fmt.Printf("%+v", pages[0].RenderPage())
+  } else {
+    log.Println("Nothing found.")
   }
 
   os.Exit(0)
