@@ -66,12 +66,15 @@ func main() {
 
   defer cur.Close(ctx)
   for cur.Next(ctx) {
-    var result bson.M
-    err := cur.Decode(&result)
+    // var result bson.M
+    var page Page
+    // err := cur.Decode(&result)
+    err := cur.Decode(&page)
     if err != nil {
       log.Fatal(err)
     }
-    fmt.Printf("Found: %+v\n", result)
+    // fmt.Printf("Found: %+v\n", result)
+    fmt.Printf("%+v", page.RenderPage())
   }
 
   if err := cur.Err(); err != nil {
