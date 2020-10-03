@@ -1,0 +1,5 @@
+theme: jekyll-theme-minimal
+logo: uveira-logo.png
+title: Uveira
+description: Uveira is a command line client for MongoDB Wikipedia imports via [dumpster-dive](https://github.com/spencermountain/dumpster-dive).
+show_downloads: "true"
