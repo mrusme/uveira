@@ -1,26 +1,31 @@
 package main
 
+// Formatting of text within setences
 type Formatting struct {
   Bold []string `json:"bold,omitempty" bson:"bold"`
   Italic []string `json:"italic,omitempty" bson:"italic"`
 }
 
+// Link within sentence
 type Link struct {
   Text string `json:"text,omitempty" bson:"text"`
   Type string `json:"type,omitempty" bson:"type"`
   Page string `json:"page,omitempty" bson:"page"`
 }
 
+// Sentence inside a paragraph
 type Sentence struct {
   Text string `json:"text,omitempty" bson:"text"`
   Links []Link `json:"links,omitempty" bson:"links"`
   Formatting Formatting `json:"formatting,omitempty" bson:"formatting"`
 }
 
+// Paragraph made of sentences
 type Paragraph struct {
   Sentences []Sentence `json:"sentences,omitempty" bson:"sentences"`
 }
 
+// Section made of paragraphs
 type Section struct {
   Title string `json:"title,omitempty" bson:"title"`
   Depth int `json:"depth,omitempty" bson:"depth"`
@@ -28,6 +33,7 @@ type Section struct {
   // Infoboxes []Infobox `json:"infoboxes,omitempty" bson:"infoboxes"`
 }
 
+// Coordinate set of page (e.g. for cities, countries, etc.)
 type Coordinate struct {
   Display string `json:"display,omitempty" bson:"display"`
   Template string `json:"template,omitempty" bson:"template"`
@@ -35,6 +41,7 @@ type Coordinate struct {
   Lon float64 `json:"lon,omitempty" bson:"lon"`
 }
 
+// Image inside page
 type Image struct {
   File string `json:"file,omitempty" bson:"file"`
   Thumb string `json:"thumb,omitempty" bson:"thumb"`
@@ -42,8 +49,9 @@ type Image struct {
   Caption string `json:"caption,omitempty" bson:"caption"`
 }
 
+// Page structure
 type Page struct {
-  Id string `json:"_id,omitempty" bson:"_id"`
+  ID string `json:"_id,omitempty" bson:"_id"`
   Title string `json:"title,omitempty" bson:"title"`
   Categories []string `json:"categories,omitempty" bson:"categories"`
   Sections []Section `json:"sections,omitempty" bson:"sections"`
@@ -51,6 +59,7 @@ type Page struct {
   Images []Image `json:"images,omitempty" bson:"images"`
 }
 
+// RenderParagraph renders one paragraph
 func (paragraph *Paragraph) RenderParagraph() (string) {
   var rendered string
 
@@ -63,6 +72,7 @@ func (paragraph *Paragraph) RenderParagraph() (string) {
   return rendered
 }
 
+// RenderSection renders one section
 func (section *Section) RenderSection() (string) {
   var rendered string
 
@@ -80,6 +90,7 @@ func (section *Section) RenderSection() (string) {
   return rendered
 }
 
+// RenderPage renders one page
 func (page *Page) RenderPage() (string) {
   var rendered string
 
