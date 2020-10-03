@@ -31,7 +31,7 @@ jobs:
 
       - name: Run build
         run: |
-          declare -a arr=("linux_386" "linux_amd64" "linux_arm" "linux_arm64" "darwin_amd64" "freebsd_386" "freebsd_amd64" "freebsd_arm" "netbsd_386" "netbsd_amd64" "netbsd_arm" "openbsd_386" "openbsd_amd64" "openbsd_arm" "openbsd_arm64" "windows_386" "windows_amd64" "plan9_386" "plan9_amd64" "plan9_arm")
+          declare -a arr=("linux_386" "linux_amd64" "linux_arm" "linux_arm64" "darwin_amd64" "freebsd_386" "freebsd_amd64" "freebsd_arm" "netbsd_386" "netbsd_amd64" "netbsd_arm" "openbsd_386" "openbsd_amd64" "openbsd_arm" "openbsd_arm64" "plan9_386" "plan9_amd64" "plan9_arm")
           for i in "${arr[@]}"
           do
             export GOOS=$(echo $i | cut -f1 -d_)
@@ -221,26 +221,6 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./uveira_openbsd_arm64.tar.gz
           asset_name: uveira_openbsd_arm64.tar.gz
-          asset_content_type: application/zip
-
-      - name: Upload windows_386
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./uveira_windows_386.tar.gz
-          asset_name: uveira_windows_386.tar.gz
-          asset_content_type: application/zip
-
-      - name: Upload windows_amd64
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./uveira_windows_amd64.tar.gz
-          asset_name: uveira_windows_amd64.tar.gz
           asset_content_type: application/zip
 
       - name: Upload plan9_386
