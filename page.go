@@ -96,7 +96,7 @@ func (page *Page) RenderPage() (string) {
       renderedSectionTitle = "## " + section.Title + "\n\n"
     }
 
-    rendered +=  renderedSectionTitle + renderedSection + "\n\n"
+    rendered +=  renderedSectionTitle + renderedSection + "\n"
   }
 
   return rendered
