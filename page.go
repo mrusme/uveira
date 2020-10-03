@@ -91,8 +91,12 @@ func (section *Section) RenderSection() (string) {
 }
 
 // RenderPage renders one page
-func (page *Page) RenderPage() (string) {
+func (page *Page) RenderPage(titleOnly bool) (string) {
   var rendered string
+
+  if titleOnly == true {
+    return "- " + page.Title + "\n"
+  }
 
   rendered = "# " + page.Title + "\n\n"
 

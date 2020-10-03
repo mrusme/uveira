@@ -19,6 +19,7 @@ import (
 func main() {
   var queryTitleExact string
   var queryTitleRegEx string
+  var queryListTitlesOnly bool
 
   rtcfg, err := NewRTCFG()
   if err != nil {
@@ -27,6 +28,7 @@ func main() {
 
   flag.StringVar(&queryTitleExact, "te", "", "Query by title (exact)")
   flag.StringVar(&queryTitleRegEx, "tr", "", "Query by title (RegEx)")
+  flag.BoolVar(&queryListTitlesOnly, "to", false, "List titles only in query results")
   flag.Parse()
 
   client, err := mongo.NewClient(options.Client().ApplyURI(rtcfg.MongoURI))
@@ -59,13 +61,17 @@ func main() {
     os.Exit(-1)
   }
 
-  cur, err := collection.Find(ctx, filter)
+  var opts *options.FindOptions
+  if queryListTitlesOnly == true {
+    opts = options.Find().SetProjection(bson.M{"title": 1})
+  }
+  cur, err := collection.Find(ctx, filter, opts)
   if err != nil {
     log.Fatal(err)
   }
 
   defer cur.Close(ctx)
-  var pages []Page
+  firstPage := true
 
   for cur.Next(ctx) {
     var page Page
@@ -75,27 +81,17 @@ func main() {
       log.Fatal(err)
     }
 
-    pages = append(pages, page)
+    if firstPage == false && queryListTitlesOnly == false {
+      fmt.Printf("---\n\n\n")
+    } else if firstPage == true {
+      firstPage = false
+    }
+
+    fmt.Printf("%+v", page.RenderPage(queryListTitlesOnly))
   }
 
   if err := cur.Err(); err != nil {
     log.Fatal(err)
-  }
-
-  foundPages := len(pages)
-
-  if foundPages > 1 {
-    for i := 0; i < foundPages; i++ {
-      fmt.Printf("%+v", pages[i].RenderPage())
-
-      if i < (foundPages - 1) {
-        fmt.Printf("---\n\n\n")
-      }
-    }
-  } else if foundPages == 1 {
-    fmt.Printf("%+v", pages[0].RenderPage())
-  } else {
-    log.Println("Nothing found.")
   }
 
   os.Exit(0)
