@@ -85,8 +85,13 @@ func main() {
   foundPages := len(pages)
 
   if foundPages > 1 {
-    // TODO
-    log.Println("Multiple results found.")
+    for i := 0; i < foundPages; i++ {
+      fmt.Printf("%+v", pages[i].RenderPage())
+
+      if i < (foundPages - 1) {
+        fmt.Printf("---\n\n\n")
+      }
+    }
   } else if foundPages == 1 {
     fmt.Printf("%+v", pages[0].RenderPage())
   } else {
