@@ -72,13 +72,203 @@ jobs:
           body: ${{ env.CHANGELOG }}
           draft: false
           prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset
+
+      - name: Upload linux_386
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./my-artifact.zip
-          asset_name: my-artifact.zip
+          asset_path: ./uveira_linux_386.tar.gz
+          asset_name: uveira_linux_386.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload linux_amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_linux_amd64.tar.gz
+          asset_name: uveira_linux_amd64.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload linux_arm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_linux_arm.tar.gz
+          asset_name: uveira_linux_arm.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload linux_arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_linux_arm64.tar.gz
+          asset_name: uveira_linux_arm64.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload darwin_amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_darwin_amd64.tar.gz
+          asset_name: uveira_darwin_amd64.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload freebsd_386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_freebsd_386.tar.gz
+          asset_name: uveira_freebsd_386.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload freebsd_amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_freebsd_amd64.tar.gz
+          asset_name: uveira_freebsd_amd64.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload freebsd_arm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_freebsd_arm.tar.gz
+          asset_name: uveira_freebsd_arm.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload netbsd_386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_netbsd_386.tar.gz
+          asset_name: uveira_netbsd_386.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload netbsd_amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_netbsd_amd64.tar.gz
+          asset_name: uveira_netbsd_amd64.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload netbsd_arm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_netbsd_arm.tar.gz
+          asset_name: uveira_netbsd_arm.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload openbsd_386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_openbsd_386.tar.gz
+          asset_name: uveira_openbsd_386.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload openbsd_amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_openbsd_amd64.tar.gz
+          asset_name: uveira_openbsd_amd64.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload openbsd_arm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_openbsd_arm.tar.gz
+          asset_name: uveira_openbsd_arm.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload openbsd_arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_openbsd_arm64.tar.gz
+          asset_name: uveira_openbsd_arm64.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload windows_386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_windows_386.tar.gz
+          asset_name: uveira_windows_386.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload windows_amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_windows_amd64.tar.gz
+          asset_name: uveira_windows_amd64.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload plan9_386
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_plan9_386.tar.gz
+          asset_name: uveira_plan9_386.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload plan9_amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_plan9_amd64.tar.gz
+          asset_name: uveira_plan9_amd64.tar.gz
+          asset_content_type: application/zip
+
+      - name: Upload plan9_arm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uveira_plan9_arm.tar.gz
+          asset_name: uveira_plan9_arm.tar.gz
           asset_content_type: application/zip
